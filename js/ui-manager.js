@@ -6,6 +6,7 @@ export class UIManager {
     this.generateBtn = document.getElementById("generateBtn");
     this.loadTodayBtn = document.getElementById("loadTodayBtn");
     this.clearBtn = document.getElementById("clearBtn");
+    this.resetHistoryBtn = document.getElementById("resetHistoryBtn");
     this.currentDateEl = document.getElementById("currentDate");
     
     this.initializeDate();
@@ -61,10 +62,21 @@ export class UIManager {
     }, 5000);
   }
 
+  showSuccess(message) {
+    this.errorDiv.textContent = message;
+    this.errorDiv.style.display = "block";
+    this.errorDiv.style.backgroundColor = "#4CAF50";
+    setTimeout(() => {
+      this.errorDiv.style.display = "none";
+      this.errorDiv.style.backgroundColor = "#f44336";
+    }, 3000);
+  }
+
   setLoading(isLoading) {
     this.loadingDiv.style.display = isLoading ? "block" : "none";
     this.generateBtn.disabled = isLoading;
     this.loadTodayBtn.disabled = isLoading;
+    this.resetHistoryBtn.disabled = isLoading;
   }
 
   clearExercises() {

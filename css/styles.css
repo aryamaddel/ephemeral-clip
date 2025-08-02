@@ -71,6 +71,18 @@ body {
   cursor: not-allowed;
 }
 
+.btn.secondary {
+  background: #f8f8f8;
+  color: #666;
+  border: 1px solid #ccc;
+  font-size: 13px;
+}
+
+.btn.secondary:hover {
+  background: #e8e8e8;
+  border-color: #999;
+}
+
 .loading {
   display: none;
   color: #666;
