@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Exercise Routine</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #0d1117;
+        color: #e6edf3;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        border-bottom: 1px solid #21262d;
+        padding-bottom: 2rem;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+        color: #58a6ff;
+      }
+
+      .header p {
+        color: #8b949e;
+        font-size: 1.1rem;
+      }
+
+      .routine-card {
+        background: #161b22;
+        border: 1px solid #21262d;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .routine-card:hover {
+        border-color: #30363d;
+      }
+
+      .day-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #21262d;
+      }
+
+      .day-title {
+        font-size: 1.5rem;
+        color: #58a6ff;
+        font-weight: 400;
+      }
+
+      .day-number {
+        background: #21262d;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #8b949e;
+        border: 1px solid #30363d;
+      }
+
+      .exercise-list {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .exercise-item {
+        background: #0d1117;
+        border: 1px solid #21262d;
+        border-radius: 6px;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .exercise-name {
+        font-weight: 500;
+        color: #e6edf3;
+      }
+
+      .exercise-reps {
+        color: #58a6ff;
+        font-size: 0.9rem;
+        background: #0d1621;
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        border: 1px solid #1f2937;
+      }
+
+      .run-day {
+        background: linear-gradient(135deg, #1f2937 0%, #161b22 100%);
+        border: 1px solid #374151;
+      }
+
+      .run-info {
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .run-title {
+        font-size: 1.3rem;
+        color: #10b981;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .run-details {
+        color: #8b949e;
+        font-size: 1rem;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .stat-card {
+        background: #161b22;
+        border: 1px solid #21262d;
+        border-radius: 6px;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        color: #58a6ff;
+        font-weight: 600;
+      }
+
+      .stat-label {
+        color: #8b949e;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+      }
+
+      .refresh-btn {
+        background: #238636;
+        color: white;
+        border: 1px solid #2ea043;
+        padding: 0.7rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      .refresh-btn:hover {
+        background: #2ea043;
+        border-color: #46954a;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 1rem;
+        }
+        .header h1 {
+          font-size: 2rem;
+        }
+        .day-header {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Personal Exercise Routine</h1>
+        <p>30-day cycle with smart variation • Overall fitness focus</p>
+      </div>
+
+      <div id="routine-container"></div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="current-day">1</div>
+          <div class="stat-label">Current Day</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="cycle-number">1</div>
+          <div class="stat-label">Cycle</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">6/7</div>
+          <div class="stat-label">Workout Days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">5km</div>
+          <div class="stat-label">Run Goal</div>
+        </div>
+      </div>
+
+      <center>
+        <button class="refresh-btn" onclick="generateRoutine()">
+          Generate New Routine
+        </button>
+      </center>
+    </div>
+
+    <script>
+      // Exercise database categorized for variety
+      const exercises = {
+        upper: [
+          "Push-ups",
+          "Pike Push-ups",
+          "Diamond Push-ups",
+          "Wide Push-ups",
+          "Tricep Dips",
+          "Wall Handstand Hold",
+          "Arm Circles",
+          "Shoulder Shrugs",
+          "Bear Crawl",
+          "Crab Walk",
+          "Inchworm",
+          "Plank to Downward Dog",
+        ],
+        core: [
+          "Plank",
+          "Side Plank",
+          "Mountain Climbers",
+          "Russian Twists",
+          "Bicycle Crunches",
+          "Dead Bug",
+          "Hollow Hold",
+          "Flutter Kicks",
+          "Leg Raises",
+          "Plank Jacks",
+          "Bird Dog",
+          "Reverse Crunches",
+        ],
+        lower: [
+          "Squats",
+          "Lunges",
+          "Jump Squats",
+          "Single Leg Squats",
+          "Calf Raises",
+          "Wall Sit",
+          "Step-ups",
+          "Glute Bridges",
+          "Side Lunges",
+          "Reverse Lunges",
+          "Bulgarian Split Squats",
+          "Fire Hydrants",
+        ],
+        cardio: [
+          "Jumping Jacks",
+          "High Knees",
+          "Butt Kicks",
+          "Burpees",
+          "Jump Rope (imaginary)",
+          "Star Jumps",
+          "Squat Jumps",
+          "Tuck Jumps",
+          "Lateral Bounds",
+          "Cross Jacks",
+          "Skater Hops",
+          "Quick Feet",
+        ],
+      };
+
+      // Rep ranges for different exercise types
+      const repRanges = {
+        upper: [8, 15],
+        core: [10, 20],
+        lower: [12, 20],
+        cardio: [15, 30],
+      };
+
+      // Smart seeded random function for consistent daily routines
+      function seededRandom(seed) {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+      }
+
+      function generateDayRoutine(dayNumber) {
+        const seed = dayNumber * 137; // Prime number for better distribution
+        let randomState = seed;
+
+        function nextRandom() {
+          randomState = (randomState * 1103515245 + 12345) & 0x7fffffff;
+          return randomState / 0x7fffffff;
+        }
+
+        const routine = [];
+        const categories = Object.keys(exercises);
+
+        // Ensure variety by picking from different categories
+        const selectedCategories = categories
+          .sort(() => nextRandom() - 0.5)
+          .slice(0, 3 + Math.floor(nextRandom() * 2));
+
+        selectedCategories.forEach((category) => {
+          const categoryExercises = exercises[category];
+          const exerciseIndex = Math.floor(
+            nextRandom() * categoryExercises.length
+          );
+          const exercise = categoryExercises[exerciseIndex];
+
+          const [minReps, maxReps] = repRanges[category];
+          const reps =
+            minReps + Math.floor(nextRandom() * (maxReps - minReps + 1));
+
+          routine.push({
+            name: exercise,
+            reps:
+              category === "cardio"
+                ? `${reps} reps`
+                : category === "core" &&
+                  (exercise.includes("Plank") || exercise.includes("Hold"))
+                ? `${Math.floor(reps / 2 + 15)}s hold`
+                : `${reps} reps`,
+          });
+        });
+
+        return routine;
+      }
+
+      function generateRoutine() {
+        const container = document.getElementById("routine-container");
+        const currentDate = new Date();
+        const startDate = new Date("2025-01-01"); // Start of year as reference
+        const daysSinceStart = Math.floor(
+          (currentDate - startDate) / (1000 * 60 * 60 * 24)
+        );
+        const currentDay = (daysSinceStart % 30) + 1;
+        const cycleNumber = Math.floor(daysSinceStart / 30) + 1;
+
+        // Update stats
+        document.getElementById("current-day").textContent = currentDay;
+        document.getElementById("cycle-number").textContent = cycleNumber;
+
+        container.innerHTML = "";
+
+        // Generate 7 days (current day + 6 ahead)
+        for (let i = 0; i < 7; i++) {
+          const displayDay = ((currentDay + i - 1) % 30) + 1;
+          const isToday = i === 0;
+          const dayOfWeek = (currentDate.getDay() + i) % 7;
+          const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // Sunday or Saturday
+
+          const card = document.createElement("div");
+          card.className = `routine-card ${isWeekend ? "run-day" : ""}`;
+
+          if (isWeekend) {
+            // Weekend run day
+            card.innerHTML = `
+                        <div class="day-header">
+                            <div class="day-title">${
+                              dayOfWeek === 0 ? "Sunday" : "Saturday"
+                            } ${isToday ? "(Today)" : ""}</div>
+                            <div class="day-number">Day ${displayDay}</div>
+                        </div>
+                        <div class="run-info">
+                            <div class="run-title">
+                                🏃‍♂️ Morning Run
+                            </div>
+                            <div class="run-details">
+                                5km • Target: Under 30 minutes<br>
+                                Early morning preferred
+                            </div>
+                        </div>
+                    `;
+          } else {
+            // Regular workout day
+            const routine = generateDayRoutine(displayDay + cycleNumber * 30);
+            const dayNames = [
+              "Sunday",
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+            ];
+
+            const exercisesList = routine
+              .map(
+                (exercise) =>
+                  `<div class="exercise-item">
+                            <div class="exercise-name">${exercise.name}</div>
+                            <div class="exercise-reps">${exercise.reps}</div>
+                        </div>`
+              )
+              .join("");
+
+            card.innerHTML = `
+                        <div class="day-header">
+                            <div class="day-title">${dayNames[dayOfWeek]} ${
+              isToday ? "(Today)" : ""
+            }</div>
+                            <div class="day-number">Day ${displayDay}</div>
+                        </div>
+                        <div class="exercise-list">
+                            ${exercisesList}
+                        </div>
+                    `;
+          }
+
+          container.appendChild(card);
+        }
+      }
+
+      // Generate routine on page load
+      generateRoutine();
+    </script>
+  </body>
+</html>
