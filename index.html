@@ -39,8 +39,20 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: var(--background);
         color: var(--text-primary);
-        line-height: 1.6;
-        transition: all 0.3s ease;
+        line-height: 1.7;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: 0.2px;
+        margin-bottom: 0.25rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
       }
 
       .header {
@@ -69,12 +81,19 @@
         border-radius: 6px;
         cursor: pointer;
         font-weight: 500;
-        transition: all 0.2s;
+  transition: background-color 0.15s ease;
       }
 
       .theme-toggle:hover {
         background: var(--accent);
-        transform: translateY(-1px);
+      }
+
+      .theme-toggle:focus-visible,
+      .copy-btn:focus-visible,
+      .quick-link:focus-visible,
+      .color-swatch:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
       }
 
       .container {
@@ -95,12 +114,11 @@
         border: 1px solid var(--border);
         border-radius: 12px;
         padding: 1.5rem;
-        transition: all 0.3s ease;
+        transition: border-color 0.2s ease;
       }
 
       .card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-color: var(--accent);
       }
 
       .card h3 {
@@ -119,7 +137,8 @@
       }
 
       .color-item {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
         align-items: center;
         gap: 0.75rem;
         padding: 0.5rem;
@@ -134,15 +153,13 @@
         border-radius: 4px;
         border: 1px solid var(--border);
         cursor: pointer;
-        transition: transform 0.2s;
+  transition: none;
       }
 
-      .color-swatch:hover {
-        transform: scale(1.1);
-      }
+
 
       .color-info {
-        flex: 1;
+        min-width: 0; /* allow text to shrink in grid */
         font-size: 0.9rem;
       }
 
@@ -155,6 +172,7 @@
         color: var(--text-secondary);
         font-family: "Courier New", monospace;
         cursor: pointer;
+  white-space: nowrap;
       }
 
       .copy-btn {
@@ -174,14 +192,15 @@
       }
 
       .code-block {
-        background: var(--background);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 1rem;
-        font-family: "Courier New", monospace;
-        font-size: 0.9rem;
-        overflow-x: auto;
-        margin: 0.5rem 0;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+  white-space: pre;
       }
 
       .snippet-header {
@@ -216,7 +235,6 @@
 
       .quick-link:hover {
         background: var(--accent);
-        transform: translateY(-1px);
       }
 
       .responsive-grid {
@@ -261,6 +279,13 @@
 
         .color-palette {
           grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          animation: none !important;
         }
       }
 
@@ -511,19 +536,35 @@
             <div class="snippet-title">Root Variables</div>
             <button class="copy-btn" onclick="copyCSSVars()">Copy All</button>
           </div>
-          <div class="code-block" id="css-vars">
-            :root { /* Light Mode */ --primary: #E68625; --secondary: #8B4513;
-            --background: #FFFFFF; --surface: #F9F5F2; --text-primary: #2C1A10;
-            --text-secondary: #6B4F3A; --accent: #F4A940; } [data-theme="dark"]
-            { /* Dark Mode */ --primary: #E68625; --secondary: #F4A940;
-            --background: #12100E; --surface: #1E1B18; --text-primary: #F5F5F5;
-            --text-secondary: #C9B8A8; --accent: #B85C25; }
-          </div>
+          <pre class="code-block" id="css-vars">:root {
+  /* Light Mode */
+  --primary: #E68625;
+  --secondary: #8B4513;
+  --background: #FFFFFF;
+  --surface: #F9F5F2;
+  --text-primary: #2C1A10;
+  --text-secondary: #6B4F3A;
+  --accent: #F4A940;
+  --border: #E0D3C7;
+}
+
+[data-theme="dark"] {
+  /* Dark Mode */
+  --primary: #E68625;
+  --secondary: #F4A940;
+  --background: #12100E;
+  --surface: #1E1B18;
+  --text-primary: #F5F5F5;
+  --text-secondary: #C9B8A8;
+  --accent: #B85C25;
+  --border: #3A3530;
+}
+</pre>
         </div>
       </div>
     </div>
 
-    <div class="copied-toast" id="toast">Copied to clipboard! ✅</div>
+    <div class="copied-toast" id="toast" role="status" aria-live="polite">Copied to clipboard! ✅</div>
 
     <script>
       function toggleTheme() {
