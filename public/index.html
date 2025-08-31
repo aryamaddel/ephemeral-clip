@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ephemeral Clip - Secure Password Transfer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Ephemeral Clip</h1>
+            <p class="subtitle">Quick, secure password transfer with client-side encryption</p>
+        </header>
+
+        <main>
+            <div class="form-section">
+                <label for="secret-input">Enter your secret:</label>
+                <textarea 
+                    id="secret-input" 
+                    placeholder="Paste your password, token, or secret text here..."
+                    rows="4"
+                ></textarea>
+                
+                <div class="options">
+                    <label for="ttl-select">Expires in:</label>
+                    <select id="ttl-select">
+                        <option value="60">1 minute</option>
+                        <option value="300">5 minutes</option>
+                        <option value="900">15 minutes</option>
+                        <option value="3600">1 hour</option>
+                        <option value="86400">24 hours</option>
+                    </select>
+                </div>
+
+                <button id="create-btn" class="btn primary">
+                    Create Secure Link
+                </button>
+            </div>
+
+            <div id="result-section" class="result-section hidden">
+                <h3>✅ Link Created Successfully</h3>
+                <p>Share this link to transfer your secret securely:</p>
+                
+                <div class="link-container">
+                    <input type="text" id="secret-link" readonly>
+                    <button id="copy-link-btn" class="btn secondary">Copy</button>
+                </div>
+                
+                <div class="warning">
+                    <p>⚠️ <strong>Important:</strong></p>
+                    <ul>
+                        <li>This link will expire automatically</li>
+                        <li>The secret will be deleted after first access</li>
+                        <li>The encryption key is only in the URL fragment (#)</li>
+                        <li>Never share this link over insecure channels</li>
+                    </ul>
+                </div>
+
+                <button id="create-another-btn" class="btn tertiary">
+                    Create Another Link
+                </button>
+            </div>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Encrypting and storing your secret...</p>
+            </div>
+
+            <div id="error" class="error hidden"></div>
+        </main>
+
+        <footer>
+            <div class="features">
+                <div class="feature">
+                    <span class="icon">🔒</span>
+                    <span>Client-side AES-GCM encryption</span>
+                </div>
+                <div class="feature">
+                    <span class="icon">⏱️</span>
+                    <span>Automatic expiration</span>
+                </div>
+                <div class="feature">
+                    <span class="icon">🗑️</span>
+                    <span>One-time access</span>
+                </div>
+            </div>
+            
+            <p class="info">
+                Your secrets are encrypted in your browser before being sent to the server.
+                The encryption key never leaves your device.
+            </p>
+        </footer>
+    </div>
+
+    <script src="crypto-utils.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

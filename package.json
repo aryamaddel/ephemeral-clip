@@ -1,0 +1,21 @@
+{
+  "name": "ephemeral-clip",
+  "version": "1.0.0",
+  "description": "Quick, secure password transfer with client-side encryption",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "bun api/index.js",
+    "dev": "bun api/index.js",
+    "test": "bun test"
+  },
+  "keywords": ["password", "secure", "ephemeral", "encryption"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "redis": "^4.6.7",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1"
+  }
+}

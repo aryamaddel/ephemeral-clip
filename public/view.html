@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Secret - Ephemeral Clip</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Ephemeral Clip</h1>
+            <p class="subtitle">Retrieving your secure secret</p>
+        </header>
+
+        <main>
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Fetching and decrypting your secret...</p>
+            </div>
+
+            <div id="secret-display" class="secret-display hidden">
+                <h3>🔓 Your Secret</h3>
+                <div class="secret-container">
+                    <textarea id="secret-content" readonly rows="6"></textarea>
+                    <button id="copy-secret-btn" class="btn primary">
+                        📋 Copy Secret
+                    </button>
+                </div>
+                
+                <div class="actions">
+                    <button id="delete-secret-btn" class="btn danger">
+                        🗑️ Delete from Server
+                    </button>
+                    <a href="/" class="btn secondary">
+                        Create New Secret
+                    </a>
+                </div>
+
+                <div class="warning">
+                    <p>⚠️ <strong>Security Notice:</strong></p>
+                    <ul>
+                        <li>This secret has been retrieved and decrypted locally</li>
+                        <li>Copy it now - this page will clear the content when you leave</li>
+                        <li>Click "Delete from Server" to remove it immediately</li>
+                        <li>The secret will auto-expire based on the original TTL</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="error" class="error hidden">
+                <h3>❌ Unable to Retrieve Secret</h3>
+                <p id="error-message"></p>
+                <div class="error-actions">
+                    <a href="/" class="btn primary">Create New Secret</a>
+                </div>
+            </div>
+
+            <div id="deleted-notice" class="success hidden">
+                <h3>✅ Secret Deleted</h3>
+                <p>The secret has been permanently removed from the server.</p>
+                <a href="/" class="btn primary">Create New Secret</a>
+            </div>
+        </main>
+
+        <footer>
+            <p class="info">
+                Your secret was decrypted locally in your browser.
+                The server never had access to the unencrypted content.
+            </p>
+        </footer>
+    </div>
+
+    <script src="crypto-utils.js"></script>
+    <script src="view.js"></script>
+</body>
+</html>
